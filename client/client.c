@@ -20,7 +20,7 @@ void sendDeleteRequest(int client_socket, const char* filename) {
 // Function to send a post request to the server along with file data
 void sendPostRequest(int client_socket, const char* filename) {
     char request[MAXLEN];
-    snprintf(request, sizeof(request), "post %s", filename);
+    snprintf(request, sizeof(request), "put %s", filename);
     send(client_socket, request, strlen(request), 0);
 
     // Open the file for reading
@@ -40,7 +40,7 @@ void sendPostRequest(int client_socket, const char* filename) {
     // Close the file
     fclose(file);
 
-    printf("Post request sent for file: %s\n", filename);
+    printf("Put request sent for file: %s\n", filename);
 }
 
 
@@ -113,7 +113,7 @@ int main() {
     }
 
     // Prompt the user for the request
-    printf("Enter the request (e.g., 'get server_file.txt', 'delete file.txt', 'post file.txt'): ");
+    printf("Enter the request (e.g., 'get server_file.txt', 'delete file.txt', 'put file.txt'): ");
     fgets(request, sizeof(request), stdin);
 
     // Remove the trailing newline character
@@ -132,10 +132,10 @@ int main() {
         // Handle delete request
         sendDeleteRequest(client_socket, request + 7); // Skip "delete " prefix
         printf("Delete request sent for file: %s\n", request + 7);
-    } else if (strncmp(request, "post", 4) == 0) {
+    } else if (strncmp(request, "put", 3) == 0) {
         // Handle post request
-        sendPostRequest(client_socket, request + 5); // Skip "post " prefix
-        printf("Post request sent for file: %s\n", request + 5);
+        sendPostRequest(client_socket, request + 4); // Skip "post " prefix
+        //printf("Post request sent for file: %s\n", request + 5);
     } else {
         printf("Invalid request format.\n");
     }

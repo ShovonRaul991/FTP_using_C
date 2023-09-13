@@ -59,9 +59,9 @@ void handleRequest(int client_socket) {
 
         // Close the file
         fclose(file);
-        printf("File sent to the client: %s\n");
-    } else if (strcmp(request_type, "post") == 0) {
-        // Handle "post" request
+        printf("File sent to the client: \n");
+    } else if (strcmp(request_type, "put") == 0) {
+        // Handle "put" request
         FILE *file = fopen(filename, "wb");
         if (file == NULL) {
             perror("File opening error");
@@ -97,7 +97,7 @@ void handleRequest(int client_socket) {
 
     close(client_socket);
 }
-// ... (previous code)
+
 
 int main() {
     int server_socket, client_socket;
